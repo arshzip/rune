@@ -423,6 +423,10 @@ impl<S: 'static> Host<S> {
                     WIme::Commit(s) => rt.ime(Ime::Commit(s)),
                     WIme::Enabled => rt.ime(Ime::Enabled),
                     WIme::Disabled => rt.ime(Ime::Disabled),
+                    // Events winit forks add (a surrounding-text deletion, say) that
+                    // Rune does not take yet: ignored. Unreachable on stock winit.
+                    #[allow(unreachable_patterns)]
+                    _ => {}
                 }
                 l.window.request_redraw();
             }
